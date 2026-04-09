@@ -142,6 +142,10 @@ vim.o.splitbelow = true
 
 vim.opt.colorcolumn = '88'
 
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.expandtab = true
+
 -- Sets how neovim will display certain whitespace characters in the editor.
 --  See `:help 'list'`
 --  and `:help 'listchars'`
@@ -188,6 +192,13 @@ vim.diagnostic.config {
 
   -- Auto open the float, so you can easily read the errors when jumping with `[d` and `]d`
   jump = { float = true },
+}
+
+-- Override htmldjango detection for .html files with Jinja
+vim.filetype.add {
+  extension = {
+    html = 'html',
+  },
 }
 
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
@@ -273,7 +284,7 @@ rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added via a link or github org/name. To run setup automatically, use `opts = {}`
-  { 'NMAC427/guess-indent.nvim', opts = {} },
+  --{ 'NMAC427/guess-indent.nvim', opts = {} },
 
   -- Alternatively, use `config = function() ... end` for full control over the configuration.
   -- If you prefer to call `setup` explicitly, use:
@@ -485,6 +496,11 @@ require('lazy').setup({
         -- ts_ls = {},
         ty = {},
         ruff = {},
+        djlint = {},
+        ts_ls = {},
+        jinja_lsp = {
+          filetypes = { 'html' },
+        },
 
         stylua = {}, -- Used to format Lua code
 
@@ -573,6 +589,7 @@ require('lazy').setup({
         lua = { 'stylua' },
         python = { 'ruff_fix', 'ruff_format', 'ruff_organize_imports' },
         html = { 'djlint' },
+        jinja = { 'djlint' },
         css = { 'prettier' },
         javascript = { 'prettier' },
         typescript = { 'prettier' },
@@ -727,7 +744,6 @@ require('lazy').setup({
       --  Check out: https://github.com/nvim-mini/mini.nvim
     end,
   },
-
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     enabled = true,
@@ -737,7 +753,7 @@ require('lazy').setup({
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter-intro`
     config = function()
       -- ensure basic parser are installed
-      local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
+      local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'jinja' }
       require('nvim-treesitter').install(parsers)
 
       ---@param buf integer
