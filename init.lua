@@ -494,7 +494,18 @@ require('lazy').setup({
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         -- ts_ls = {},
-        ty = {},
+        -- ty = {},
+        -- basedpyright = {},
+        -- zuban = {},
+        pyrefly = {
+          settings = {
+            python = {
+              pyrefly = {
+                displayTypeErrors = 'force-on',
+              },
+            },
+          },
+        },
         ruff = {},
         djlint = {},
         ts_ls = {},
@@ -593,6 +604,7 @@ require('lazy').setup({
         css = { 'prettier' },
         javascript = { 'prettier' },
         typescript = { 'prettier' },
+        json = { 'prettier' },
         sh = { 'shfmt' },
         markdown = { 'prettier', 'markdown-toc', 'markdownlint-cli2' },
         -- Conform can also run multiple formatters sequentially
