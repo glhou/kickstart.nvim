@@ -265,6 +265,16 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   if vim.v.shell_error ~= 0 then error('Error cloning lazy.nvim:\n' .. out) end
 end
 
+-- Autosave hidden buffers
+vim.api.nvim_create_autocmd({ 'BufHidden', 'FocusLost' }, {
+  pattern = '*',
+  callback = function(args)
+    local buf = args.buf
+    if vim.bo[buf].buftype == '' and vim.fn.filereadable(vim.fn.bufname(buf)) == 1 then vim.api.nvim_buf_call(buf, function() vim.cmd 'silent! update' end) end
+  end,
+  desc = 'Auto-save hidden buffers (e.g. after LSP rename) or focus lost (change tmux pane)',
+})
+
 ---@type vim.Option
 local rtp = vim.opt.rtp
 rtp:prepend(lazypath)
