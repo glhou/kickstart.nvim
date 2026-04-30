@@ -265,14 +265,36 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   if vim.v.shell_error ~= 0 then error('Error cloning lazy.nvim:\n' .. out) end
 end
 
+-- textDocument/rename triggers an event
+local orig_rename = vim.lsp.handlers['textDocument/rename']
+vim.lsp.handlers['textDocument/rename'] = function(err, result, ctx, config)
+  orig_rename(err, result, ctx, config)
+  if not err and result then vim.schedule(function() vim.api.nvim_exec_autocmds('User', { pattern = 'LspRenameDone' }) end) end
+end
+
 -- Autosave hidden buffers
+local function save_buf(buf)
+  if not vim.api.nvim_buf_is_valid(buf) then return end
+  if vim.bo[buf].buftype == '' and vim.bo[buf].modified and vim.fn.filereadable(vim.fn.bufname(buf)) == 1 then
+    vim.api.nvim_buf_call(buf, function() vim.cmd 'silent! update' end)
+  end
+end
+-- save on hide/focus lost
 vim.api.nvim_create_autocmd({ 'BufHidden', 'FocusLost' }, {
   pattern = '*',
-  callback = function(args)
-    local buf = args.buf
-    if vim.bo[buf].buftype == '' and vim.fn.filereadable(vim.fn.bufname(buf)) == 1 then vim.api.nvim_buf_call(buf, function() vim.cmd 'silent! update' end) end
+  callback = function(args) save_buf(args.buf) end,
+  desc = 'Auto-save on hide or focus lost',
+})
+
+-- save all touched bufs after LSP rename
+vim.api.nvim_create_autocmd('User', {
+  pattern = 'LspRenameDone',
+  callback = function()
+    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+      save_buf(buf)
+    end
   end,
-  desc = 'Auto-save hidden buffers (e.g. after LSP rename) or focus lost (change tmux pane)',
+  desc = 'Auto-save all bufs after LSP rename',
 })
 
 ---@type vim.Option
