@@ -542,6 +542,7 @@ require('lazy').setup({
         jinja_lsp = {
           filetypes = { 'html' },
         },
+        gopls = {},
 
         stylua = {}, -- Used to format Lua code
 
