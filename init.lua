@@ -201,6 +201,11 @@ vim.filetype.add {
   },
 }
 
+-- Smoother incremental selection
+vim.keymap.set('x', 'v', function() require('vim.treesitter._select').select_parent() end)
+
+vim.keymap.set('x', '<BS>', function() require('vim.treesitter._select').select_child() end)
+
 -- Oil keymap
 vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open parent directory' })
 
