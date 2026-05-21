@@ -220,6 +220,15 @@ vim.keymap.set('n', '<leader>fn', ':enew<CR>', { desc = 'New file' })
 
 vim.keymap.set('n', '<leader>W', ':noautocmd w<CR>')
 
+-- grep and open
+vim.keymap.set('n', '<leader>G', function()
+  local pattern = vim.fn.input 'Pattern: '
+  pattern = vim.fn.escape(pattern, '/\\')
+
+  vim.cmd('vimgrep /' .. pattern .. '/gj **/*')
+  vim.cmd 'copen'
+end)
+
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
