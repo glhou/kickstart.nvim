@@ -42,7 +42,11 @@ return {
     },
     {
       '<leader>,',
-      function() Snacks.picker.buffers { current = false, sort_lastused = true } end,
+      function()
+        ---@type snacks.picker.buffers.Config
+        local opts = { current = false, sort_lastused = true }
+        Snacks.picker.buffers(opts)
+      end,
       desc = 'Buffers',
     },
     {
