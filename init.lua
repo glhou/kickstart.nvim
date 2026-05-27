@@ -249,6 +249,27 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 -- vim.keymap.set('n', '<C-S-j>', '<C-w>J', { desc = 'Move window to the lower' })
 -- vim.keymap.set('n', '<C-S-k>', '<C-w>K', { desc = 'Move window to the upper' })
 
+vim.api.nvim_create_user_command('EM', function(opts)
+  if opts.args == '' then
+    print 'Need a register as input'
+    return
+  end
+  local reg = opts.args
+  local macro = vim.fn.getreg(reg)
+  if macro == '' then
+    print 'Register is empty'
+    return
+  end
+  vim.ui.input({ prompt = 'Edit macro:', default = macro }, function(input)
+    if input then
+      vim.fn.setreg(reg, input)
+      print 'Macro updated'
+    end
+  end)
+end, {
+  nargs = 1,
+})
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
