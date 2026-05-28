@@ -251,23 +251,38 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 
 vim.api.nvim_create_user_command('EM', function(opts)
   if opts.args == '' then
-    print 'Need a register as input'
+    vim.notify('Usage: :EM <register>', vim.log.levels.ERROR)
     return
   end
   local reg = opts.args
   local macro = vim.fn.getreg(reg)
   if macro == '' then
-    print 'Register is empty'
+    vim.notify(('Register "%s" is empty'):format(reg), vim.log.levels.WARN)
     return
   end
-  vim.ui.input({ prompt = 'Edit macro:', default = macro }, function(input)
-    if input then
-      vim.fn.setreg(reg, input)
-      print 'Macro updated'
-    end
-  end)
+  local buf = vim.api.nvim_create_buf(false, true)
+  vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(vim.fn.keytrans(macro), '\n'))
+  vim.bo[buf].buftype = 'acwrite'
+  vim.bo[buf].bufhidden = 'wipe'
+  vim.bo[buf].swapfile = false
+  vim.api.nvim_set_current_buf(buf)
+
+  vim.notify('q/Esc to quit | Enter to save', vim.log.levels.INFO)
+
+  vim.keymap.set('n', 'q', '<cmd>bd!<cr>', { buffer = buf })
+  vim.keymap.set('n', '<Esc>', '<cmd>bd!<cr>', { buffer = buf })
+
+  vim.keymap.set('n', '<CR>', function()
+    local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+    local text = table.concat(lines, '\n')
+
+    vim.fn.setreg(reg, vim.api.nvim_replace_termcodes(text, true, true, true))
+
+    vim.cmd 'bd!'
+  end, { buffer = buf })
 end, {
   nargs = 1,
+  desc = 'Edit macro register in a temporary buffer',
 })
 
 -- [[ Basic Autocommands ]]
