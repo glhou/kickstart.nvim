@@ -209,12 +209,19 @@ vim.keymap.set('x', '<BS>', function() require('vim.treesitter._select').select_
 -- Oil keymap
 vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open parent directory' })
 
+-- Vim diagnostics
+vim.keymap.set('n', '<leader>cd', function() vim.diagnostic.setloclist() end, { desc = 'Open diagnostic is loclist' })
+
 -- Move
 vim.keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'Scroll up and center' })
 vim.keymap.set('n', '<C-d>', '<C-d>zz', { desc = 'Scroll down and center' })
 
 vim.keymap.set('n', 'H', '25zh', { noremap = true, silent = true, desc = 'Scroll left' })
 vim.keymap.set('n', 'L', '25zl', { noremap = true, silent = true, desc = 'Scroll right' })
+
+vim.keymap.set('n', 'gh', '0', { desc = 'jump to the begining of the line' })
+vim.keymap.set('n', 'gl', '$', { desc = 'jump to the end of the line' })
+vim.keymap.set('n', 'gs', '^', { desc = 'jump to the start of the line' })
 
 vim.keymap.set('n', '<leader>fn', ':enew<CR>', { desc = 'New file' })
 
