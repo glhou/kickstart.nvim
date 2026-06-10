@@ -491,7 +491,6 @@ require('lazy').setup({
       --    That is to say, every time a new file is opened that is associated with
       --    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
       --    function will be executed to configure the current buffer
-      vim.lsp.inlay_hint.enable(true)
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
@@ -543,6 +542,8 @@ require('lazy').setup({
                 vim.api.nvim_clear_autocmds { group = 'kickstart-lsp-highlight', buffer = event2.buf }
               end,
             })
+
+            vim.schedule(function() vim.lsp.inlay_hint.enable(true, { bufnr = event.buf }) end)
           end
 
           -- The following code creates a keymap to toggle inlay hints in your
@@ -575,15 +576,7 @@ require('lazy').setup({
         ty = {},
         -- basedpyright = {},
         -- zuban = {},
-        -- pyrefly = {
-        --   settings = {
-        --     python = {
-        --       pyrefly = {
-        --         displayTypeErrors = 'force-on',
-        --       },
-        --     },
-        --   },
-        -- },
+        -- pyrefly = {},
         ruff = {},
         djlint = {},
         ts_ls = {},
@@ -770,6 +763,11 @@ require('lazy').setup({
 
       sources = {
         default = { 'lsp', 'path', 'snippets' },
+        providers = {
+          lsp = {
+            transform_items = function(ctx, items) return require('custom.functions.uv_import').transform(ctx, items) end,
+          },
+        },
       },
 
       snippets = { preset = 'luasnip' },
