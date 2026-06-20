@@ -564,7 +564,6 @@ require('lazy').setup({
       ---@type table<string, vim.lsp.Config>
       local servers = {
         -- clangd = {},
-        -- gopls = {},
         -- pyright = {},
         -- rust_analyzer = {},
         --
@@ -584,6 +583,7 @@ require('lazy').setup({
           filetypes = { 'html' },
         },
         gopls = {},
+        staticcheck = {},
 
         stylua = {}, -- Used to format Lua code
 
