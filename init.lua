@@ -582,8 +582,18 @@ require('lazy').setup({
         jinja_lsp = {
           filetypes = { 'html' },
         },
-        gopls = {},
-        staticcheck = {},
+        gopls = {
+          settings = {
+            gopls = {
+              gofumpt = true,
+              staticcheck = true,
+              analyses = {
+                unusedparams = true,
+                shadow = true,
+              },
+            },
+          },
+        },
 
         stylua = {}, -- Used to format Lua code
 
