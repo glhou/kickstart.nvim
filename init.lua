@@ -594,6 +594,14 @@ require('lazy').setup({
             },
           },
         },
+        rust_analyzer = {
+          settings = {
+            rust_analyzer = {
+              cargo = { allFeatures = true },
+              checkOnSave = { command = 'clippy' },
+            },
+          },
+        },
 
         stylua = {}, -- Used to format Lua code
 
