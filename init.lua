@@ -171,6 +171,9 @@ vim.o.scrolloff = 8
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
+-- Python option
+vim.opt.iskeyword:remove '_'
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
