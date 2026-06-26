@@ -146,6 +146,9 @@ vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 
+-- No fold closed
+vim.o.foldlevelstart = 99
+
 -- Sets how neovim will display certain whitespace characters in the editor.
 --  See `:help 'list'`
 --  and `:help 'listchars'`
@@ -542,9 +545,8 @@ require('lazy').setup({
                 vim.api.nvim_clear_autocmds { group = 'kickstart-lsp-highlight', buffer = event2.buf }
               end,
             })
-
-            vim.schedule(function() vim.lsp.inlay_hint.enable(true, { bufnr = event.buf }) end)
           end
+          vim.schedule(function() vim.lsp.inlay_hint.enable(true, { bufnr = event.buf }) end)
 
           -- The following code creates a keymap to toggle inlay hints in your
           -- code, if the language server you are using supports them
@@ -572,10 +574,17 @@ require('lazy').setup({
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         -- ts_ls = {},
-        ty = {},
+        -- ty = {},
         -- basedpyright = {},
         -- zuban = {},
-        -- pyrefly = {},
+        pyrefly = {
+          cmd = { 'uvx', 'pyrefly', 'lsp' },
+          settings = {
+            pyrefly = {
+              typeCheckingMode = 'default',
+            },
+          },
+        },
         ruff = {},
         djlint = {},
         ts_ls = {},
@@ -880,7 +889,6 @@ require('lazy').setup({
 
         -- enables treesitter based folds
         -- for more info on folds see `:help folds`
-        vim.o.foldlevelstart = 99
         vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
         vim.wo.foldmethod = 'expr'
 
