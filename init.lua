@@ -578,7 +578,6 @@ require('lazy').setup({
         -- basedpyright = {},
         -- zuban = {},
         pyrefly = {
-          cmd = { 'uvx', 'pyrefly', 'lsp' },
           settings = {
             pyrefly = {
               typeCheckingMode = 'default',
