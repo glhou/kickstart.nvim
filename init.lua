@@ -104,6 +104,7 @@ vim.g.have_nerd_font = true
 -- Experiment for yourself to see if you like it!
 vim.o.number = true
 vim.o.relativenumber = true
+vim.o.numberwidth = 5
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.o.mouse = 'a'
@@ -146,7 +147,9 @@ vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 
--- No fold closed
+-- Folding
+vim.o.foldmethod = 'indent'
+vim.o.foldenable = false
 vim.o.foldlevelstart = 99
 
 -- Sets how neovim will display certain whitespace characters in the editor.
@@ -190,8 +193,9 @@ vim.diagnostic.config {
   underline = { severity = { min = vim.diagnostic.severity.WARN } },
 
   -- Can switch between these as you prefer
-  virtual_text = true, -- Text shows up at the end of the line
+  virtual_text = false, -- Text shows up at the end of the line
   virtual_lines = false, -- Text shows up underneath the line, with virtual lines
+  signs = true,
 
   -- Auto open the float, so you can easily read the errors when jumping with `[d` and `]d`
   jump = { float = true },
@@ -258,6 +262,13 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 -- vim.keymap.set('n', '<C-S-l>', '<C-w>L', { desc = 'Move window to the right' })
 -- vim.keymap.set('n', '<C-S-j>', '<C-w>J', { desc = 'Move window to the lower' })
 -- vim.keymap.set('n', '<C-S-k>', '<C-w>K', { desc = 'Move window to the upper' })
+
+-- Custom command to get github review comments in quicklist
+vim.api.nvim_create_user_command('PRComments', function() require('custom.functions.github_pr').get_pr_comments() end, {
+  desc = 'Open GitHub PR view comments of current branch',
+})
+
+-- Custom command to edit macros
 
 vim.api.nvim_create_user_command('EM', function(opts)
   if opts.args == '' then
@@ -588,7 +599,7 @@ require('lazy').setup({
         djlint = {},
         ts_ls = {},
         jinja_lsp = {
-          filetypes = { 'html' },
+          filetypes = { 'html', 'jinja' },
         },
         gopls = {
           settings = {
@@ -878,6 +889,7 @@ require('lazy').setup({
       local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'jinja' }
       require('nvim-treesitter').install(parsers)
 
+      vim.treesitter.language.register('html', 'jinja')
       ---@param buf integer
       ---@param language string
       local function treesitter_try_attach(buf, language)
@@ -888,8 +900,8 @@ require('lazy').setup({
 
         -- enables treesitter based folds
         -- for more info on folds see `:help folds`
-        vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-        vim.wo.foldmethod = 'expr'
+        -- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+        -- vim.wo.foldmethod = 'expr'
 
         -- enables treesitter based indentation
         vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
