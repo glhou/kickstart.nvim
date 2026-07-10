@@ -589,16 +589,19 @@ require('lazy').setup({
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         -- ts_ls = {},
-        -- ty = {},
-        basedpyright = {},
+        ty = {},
+        -- basedpyright = {},
         -- zuban = {},
         -- pyrefly = {
         --   settings = {
         --     pyrefly = {
+        --       capabilities = {
+        --         offsetEncoding = { 'utf-8' },
+        --       },
         --       typeCheckingMode = 'default',
         --     },
         --   },
-        --   on_init = function(client) client.server_capabilities.renameProvider = false end,
+        --   -- on_init = function(client) client.server_capabilities.renameProvider = false end,
         -- },
         -- pylsp = {
         --   settings = {
