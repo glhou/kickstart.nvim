@@ -590,15 +590,36 @@ require('lazy').setup({
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         -- ts_ls = {},
         -- ty = {},
-        -- basedpyright = {},
+        basedpyright = {},
         -- zuban = {},
-        pyrefly = {
-          settings = {
-            pyrefly = {
-              typeCheckingMode = 'default',
-            },
-          },
-        },
+        -- pyrefly = {
+        --   settings = {
+        --     pyrefly = {
+        --       typeCheckingMode = 'default',
+        --     },
+        --   },
+        --   on_init = function(client) client.server_capabilities.renameProvider = false end,
+        -- },
+        -- pylsp = {
+        --   settings = {
+        --     pylsp = {
+        --       plugins = {
+        --         pyflakes = { enabled = false },
+        --         pycodestyle = { enabled = false },
+        --         mccabe = { enabled = false },
+        --         pylint = { enabled = false },
+        --         yapf = { enabled = false },
+        --         autopep8 = { enabled = false },
+        --         jedi_completion = { enabled = false },
+        --         jedi_hover = { enabled = false },
+        --         jedi_references = { enabled = false },
+        --         jedi_signature_help = { enabled = false },
+        --         jedi_symbols = { enabled = false },
+        --         rope_rename = { enabled = true },
+        --       },
+        --     },
+        --   },
+        -- },
         ruff = {},
         djlint = {},
         ts_ls = {},
