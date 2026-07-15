@@ -342,7 +342,7 @@ end
 local function save_buf(buf)
   if not vim.api.nvim_buf_is_valid(buf) then return end
   if vim.bo[buf].buftype == '' and vim.bo[buf].modified and vim.fn.filereadable(vim.fn.bufname(buf)) == 1 then
-    vim.api.nvim_buf_call(buf, function() vim.cmd 'silent! update' end)
+    vim.api.nvim_buf_call(buf, function() vim.cmd 'noautocmd silent! update' end)
   end
 end
 -- save on hide/focus lost
