@@ -265,7 +265,6 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 
 -- Custom command to open notes file
 vim.api.nvim_create_user_command('Notes', function() vim.cmd.edit(vim.fn.expand '~/notes.md') end, { desc = 'Open shared note file' })
-vim.keymap.set('n', '<leader>;', function() vim.cmd.edit(vim.fn.expand '~/notes.md') end, { desc = 'Open notes' })
 
 -- Custom command to get github review comments in quicklist
 vim.api.nvim_create_user_command('PRComments', function() require('custom.functions.github_pr').get_pr_comments() end, {

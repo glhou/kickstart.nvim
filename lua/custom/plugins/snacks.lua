@@ -59,11 +59,11 @@ return {
       function() Snacks.picker.command_history() end,
       desc = 'Command History',
     },
-    {
-      '<leader>n',
-      function() Snacks.picker.notifications() end,
-      desc = 'Notification History',
-    },
+    -- {
+    --   '<leader>n',
+    --   function() Snacks.picker.notifications() end,
+    --   desc = 'Notification History',
+    -- },
     {
       '<leader>e',
       function() Snacks.explorer() end,
@@ -322,11 +322,11 @@ return {
       function() Snacks.scratch.select() end,
       desc = 'Select Scratch Buffer',
     },
-    {
-      '<leader>n',
-      function() Snacks.notifier.show_history() end,
-      desc = 'Notification History',
-    },
+    -- {
+    --   '<leader>n',
+    --   function() Snacks.notifier.show_history() end,
+    --   desc = 'Notification History',
+    -- },
     {
       '<leader>bd',
       function() Snacks.bufdelete() end,
