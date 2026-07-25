@@ -1,14 +1,17 @@
-return {
-  'linux-cultist/venv-selector.nvim',
-  dependencies = {
-    'neovim/nvim-lspconfig',
-  },
-  ft = 'python', -- Load when opening Python files
-  keys = {
-    { '<leader>v', '<cmd>VenvSelect<cr>' }, -- Open picker on keymap
-  },
-  opts = { -- this can be an empty lua table - just showing below for clarity.
-    search = {}, -- if you add your own searches, they go here.
-    options = {}, -- if you add plugin options, they go here.
-  },
-}
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'python',
+  once = true,
+  callback = function()
+    vim.pack.add {
+      { src = 'https://github.com/neovim/nvim-lspconfig' },
+      { src = 'https://github.com/linux-cultist/venv-selector.nvim' },
+    }
+
+    require('venv-selector').setup {
+      search = {},
+      options = {},
+    }
+  end,
+})
+
+vim.keymap.set('n', '<leader>v', function() vim.cmd 'VenvSelect' end, { desc = 'Select Python virtual environment' })
