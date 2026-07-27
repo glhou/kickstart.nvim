@@ -725,6 +725,7 @@ do
 
       -- inlay hints
       if client and client:supports_method('textDocuemnt/inlayHint', event.buf) then
+        vim.lsp.inlay_hint.enable(true)
         map('<leader>uh', function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf }) end, '[U]i Toggle Inlay [H]ints')
       end
     end,
