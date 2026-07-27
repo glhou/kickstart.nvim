@@ -515,10 +515,6 @@ do
   --  - yinq - [Y]ank [I]nside [N]ext [Q]uot
   --  - ci'  - [C]hange [I]nside [']quote
   require('mini.ai').setup {
-    mappings = {
-      arround_next = 'aa',
-      inside_next = 'ii',
-    },
     n_lines = 500,
   }
 

@@ -22,6 +22,10 @@
       "rev": "6f793b2bcd2d35e201c09520f698bb763220908a",
       "src": "https://github.com/j-hui/fidget.nvim"
     },
+    "flash.nvim": {
+      "rev": "fcea7ff883235d9024dc41e638f164a450c14ca2",
+      "src": "git@github.com:folke/flash.nvim"
+    },
     "gitsigns.nvim": {
       "rev": "31d6fb2d618bca1482b9f274751ead5f03461408",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
@@ -126,6 +130,10 @@
     "todo-comments.nvim": {
       "rev": "31e3c38ce9b29781e4422fc0322eb0a21f4e8668",
       "src": "https://github.com/folke/todo-comments.nvim"
+    },
+    "venv-selector.nvim": {
+      "rev": "cc4bb3975de8835291f9bb45889e96c6b2795fc4",
+      "src": "https://github.com/linux-cultist/venv-selector.nvim"
     },
     "vimwiki": {
       "rev": "a54a3002e229c4b43d69ced170ff77663a5b2c40",
