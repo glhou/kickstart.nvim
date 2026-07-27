@@ -11,7 +11,6 @@ vim.api.nvim_create_autocmd('FileType', {
       search = {},
       options = {},
     }
+    vim.keymap.set('n', '<leader>v', function() vim.cmd 'VenvSelect' end, { desc = 'Select Python virtual environment' })
   end,
 })
-
-vim.keymap.set('n', '<leader>v', function() vim.cmd 'VenvSelect' end, { desc = 'Select Python virtual environment' })
