@@ -886,6 +886,7 @@ do
     lsp_completion = {
       source_func = 'omnifunc',
       auto_setup = true,
+      process_items = require('custom.functions.uv_import').transform_mini,
     },
   }
   vim.opt.completeopt = 'menu,menuone,noinsert,fuzzy'
