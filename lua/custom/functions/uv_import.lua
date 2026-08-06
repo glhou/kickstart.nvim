@@ -34,7 +34,7 @@ function M.transform(_, items)
   return items
 end
 
-function M.transform_mini(items, base)
+function M.augment(items)
   local extra = {}
 
   for _, item in ipairs(items) do
@@ -66,8 +66,7 @@ function M.transform_mini(items, base)
   end
   vim.list_extend(items, extra)
 
-  -- Call mini.completion's default processor to handle standard sorting/filtering
-  return MiniCompletion.default_process_items(items, base)
+  return items
 end
 
 return M

@@ -530,6 +530,7 @@ do
 
   ---@diagnostic disable-next-line: duplicate-set-field
   statusline.section_location = function() return '%2l:%-2v' end
+  require('mini.pairs').setup()
 end
 
 -- ============================================================
@@ -882,15 +883,27 @@ do
   --
   -- vim.pack.add { gh 'rafamadriz/friendly-snippets' }
   -- require('luasnip.loaders.from_vscode').lazy_load()
+  require('mini.fuzzy').setup {} -- required in fuzzy_filter
   require('mini.completion').setup {
     delay = { completion = 100, info = 100, singature = 50 },
+    window = {
+      info = { height = 25, width = 80, border = nil },
+      signature = { height = 25, width = 80, border = nil },
+    },
     lsp_completion = {
       source_func = 'omnifunc',
       auto_setup = true,
-      process_items = require('custom.functions.uv_import').transform_mini,
+      process_items = function(items, base)
+        local augmented = require('custom.functions.uv_import').augment(items)
+        local filtered = require('custom.functions.fuzzy_filter').filter(augmented, base)
+        return MiniCompletion.default_process_items(filtered, '')
+      end,
     },
+
+    fallback_action = '<C-x><C-n>',
+
+    set_vim_settings = true,
   }
-  vim.opt.completeopt = 'menu,menuone,noinsert,fuzzy'
 end
 
 -- ============================================================
@@ -964,7 +977,7 @@ do
   -- require 'kickstart.plugins.debug'
   require 'kickstart.plugins.indent_line'
   -- require 'kickstart.plugins.lint'
-  require 'kickstart.plugins.autopairs'
+  -- require 'kickstart.plugins.autopairs'
   -- require 'kickstart.plugins.neo-tree'
   -- require 'kickstart.plugins.gitsigns' -- adds gitsigns recommended keymaps
 
