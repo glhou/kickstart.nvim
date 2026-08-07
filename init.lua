@@ -735,7 +735,8 @@ do
   -- Enable language servers
   ---@type table<string, vim.lsp.Config>
   local servers = {
-    ty = {},
+    --ty = {},
+    pyrefly = {},
     ruff = {},
     djlint = {},
     ts_ls = {},
