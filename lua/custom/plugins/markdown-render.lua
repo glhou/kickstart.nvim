@@ -1,34 +1,34 @@
-vim.pack.add {
-  'https://github.com/MeanderingProgrammer/render-markdown.nvim',
-  'https://github.com/nvim-treesitter/nvim-treesitter',
-  'https://github.com/nvim-mini/mini.icons',
-}
+-- vim.pack.add {
+--   'https://github.com/MeanderingProgrammer/render-markdown.nvim',
+--   'https://github.com/nvim-treesitter/nvim-treesitter',
+--   'https://github.com/nvim-mini/mini.icons',
+-- }
 
-require('render-markdown').setup {
-  file_types = { 'markdown', 'vimwiki' },
-  completions = {
-    -- Settings for blink.cmp completions source
-    blink = { enabled = true },
-  },
-
-  checkbox = {
-    custom = {
-      partial = {
-        raw = '[.]',
-        rendered = '◔ ',
-        highlight = 'RenderMarkdownTodo',
-      },
-      half = {
-        raw = '[o]',
-        rendered = '◑ ',
-        highlight = 'RenderMarkdownTodo',
-      },
-      almost = {
-        raw = '[O]',
-        rendered = '◕ ',
-        highlight = 'RenderMarkdownTodo',
-      },
-    },
-  },
-}
-vim.treesitter.language.register('markdown', 'vimwiki')
+-- require('render-markdown').setup {
+--   file_types = { 'markdown', 'vimwiki' },
+--   completions = {
+--     -- Settings for blink.cmp completions source
+--     blink = { enabled = true },
+--   },
+--
+--   checkbox = {
+--     custom = {
+--       partial = {
+--         raw = '[.]',
+--         rendered = '◔ ',
+--         highlight = 'RenderMarkdownTodo',
+--       },
+--       half = {
+--         raw = '[o]',
+--         rendered = '◑ ',
+--         highlight = 'RenderMarkdownTodo',
+--       },
+--       almost = {
+--         raw = '[O]',
+--         rendered = '◕ ',
+--         highlight = 'RenderMarkdownTodo',
+--       },
+--     },
+--   },
+-- }
+-- vim.treesitter.language.register('markdown', 'vimwiki')
