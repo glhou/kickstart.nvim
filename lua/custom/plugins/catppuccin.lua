@@ -8,4 +8,4 @@ require('catppuccin').setup {
     }
   end,
 }
-vim.cmd.colorscheme 'catppuccin-macchiato'
+vim.cmd.colorscheme 'catppuccin-latte'

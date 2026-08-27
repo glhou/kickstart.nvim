@@ -739,7 +739,8 @@ do
     pyrefly = {},
     ruff = {},
     djlint = {},
-    ts_ls = {},
+    vtsls = {},
+    eslint = {},
     jinja_lsp = {
       filetypes = { 'html', 'jinja' },
     },
@@ -763,6 +764,7 @@ do
         },
       },
     },
+    pgformatter = {},
 
     stylua = {}, -- Used to format Lua code
 
@@ -859,6 +861,7 @@ do
       json = { 'prettier' },
       sh = { 'shfmt' },
       markdown = { 'prettier', 'markdown-toc', 'markdownlint-cli2' },
+      sql = { 'pg_format' },
       -- Conform can also run multiple formatters sequentially
       -- python = { "isort", "black" },
       --
