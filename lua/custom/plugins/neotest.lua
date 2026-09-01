@@ -5,6 +5,7 @@ vim.pack.add {
   'https://github.com/antoinemadec/FixCursorHold.nvim',
   'https://github.com/nvim-treesitter/nvim-treesitter',
   'https://github.com/nvim-neotest/neotest-python',
+  'https://github.com/nvim-neotest/neotest-go',
 }
 local neotest = require 'neotest'
 
@@ -17,6 +18,7 @@ neotest.setup {
       pytest_discover_instances = false,
       python = function() return vim.fn.trim(vim.fn.system 'uv python find') end,
     },
+    require 'neotest-go',
   },
   output = { open_on_run = true },
 }
