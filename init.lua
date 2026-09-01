@@ -756,6 +756,7 @@ do
         },
       },
     },
+    goimports = {},
     rust_analyzer = {
       settings = {
         rust_analyzer = {
@@ -862,6 +863,7 @@ do
       sh = { 'shfmt' },
       markdown = { 'prettier', 'markdown-toc', 'markdownlint-cli2' },
       sql = { 'pg_format' },
+      go = { 'goimports' },
       -- Conform can also run multiple formatters sequentially
       -- python = { "isort", "black" },
       --

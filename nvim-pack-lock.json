@@ -26,6 +26,10 @@
       "rev": "fcea7ff883235d9024dc41e638f164a450c14ca2",
       "src": "git@github.com:folke/flash.nvim"
     },
+    "gh.nvim": {
+      "rev": "6f367b2ab8f9d4a0a23df2b703a3f91137618387",
+      "src": "https://github.com/ldelossa/gh.nvim"
+    },
     "gitsigns.nvim": {
       "rev": "31d6fb2d618bca1482b9f274751ead5f03461408",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
@@ -46,6 +50,10 @@
     "jj-diffconflicts": {
       "rev": "a2aa9a247b56d2c1a6f6be81bcf41c5450cc82ff",
       "src": "https://github.com/rafikdraoui/jj-diffconflicts"
+    },
+    "litee.nvim": {
+      "rev": "4efaf373322d9e71eaff31164abb393417cc6f6a",
+      "src": "https://github.com/ldelossa/litee.nvim"
     },
     "mason-lspconfig.nvim": {
       "rev": "7adc933dabcc7c86ae6b07aff7ee68eac398491f",

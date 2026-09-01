@@ -1,16 +1,20 @@
-vim.pack.add {
-  'https://github.com/nvim-lua/plenary.nvim',
-  'https://github.com/nvim-telescope/telescope.nvim',
-  'https://github.com/pwntester/octo.nvim',
-}
-
-require('octo').setup {
-  picker = 'default',
-  mappings_disable_default = true,
-}
-
-vim.keymap.set('n', '<leader>oi', '<CMD>Octo issue list<CR>', { desc = 'List GitHub Issues' })
-vim.keymap.set('n', '<leader>op', '<CMD>Octo pr list<CR>', { desc = 'List GitHub PullRequests' })
-vim.keymap.set('n', '<leader>oc', '<CMD>Octo pr changes<CR>', { desc = 'List PR changes' })
-vim.keymap.set('n', '<leader>on', '<CMD>Octo notification list<CR>', { desc = 'List GitHub Notifications' })
-vim.keymap.set('n', '<leader>ox', '<CMD> Octo actions<CR>', { desc = 'Action picker' })
+-- vim.pack.add {
+--   'https://github.com/nvim-lua/plenary.nvim',
+--   'https://github.com/nvim-telescope/telescope.nvim',
+--   'https://github.com/pwntester/octo.nvim',
+-- }
+--
+-- require('octo').setup {
+--   picker = 'default',
+--   mappings_disable_default = true,
+--   default_to_projects_v2 = true,
+--   file_panel = {
+--     icons = function(name, _ext) return require('mini.icons').get('file', name) end,
+--   },
+-- }
+--
+-- vim.keymap.set('n', '<leader>oi', '<CMD>Octo issue list<CR>', { desc = 'List GitHub Issues' })
+-- vim.keymap.set('n', '<leader>op', '<CMD>Octo pr list<CR>', { desc = 'List GitHub PullRequests' })
+-- vim.keymap.set('n', '<leader>oc', '<CMD>Octo pr changes<CR>', { desc = 'List PR changes' })
+-- vim.keymap.set('n', '<leader>on', '<CMD>Octo notification list<CR>', { desc = 'List GitHub Notifications' })
+-- vim.keymap.set('n', '<leader>ox', '<CMD> Octo actions<CR>', { desc = 'Action picker' })
