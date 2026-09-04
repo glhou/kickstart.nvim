@@ -899,11 +899,11 @@ do
     lsp_completion = {
       source_func = 'omnifunc',
       auto_setup = true,
-      process_items = function(items, base)
-        local augmented = require('custom.functions.uv_import').augment(items)
-        local filtered = require('custom.functions.fuzzy_filter').filter(augmented, base)
-        return MiniCompletion.default_process_items(filtered, '')
-      end,
+      --   process_items = function(items, base)
+      --     local augmented = require('custom.functions.uv_import').augment(items)
+      --     local filtered = require('custom.functions.fuzzy_filter').filter(augmented, base)
+      --     return MiniCompletion.default_process_items(filtered, '')
+      --   end,
     },
 
     fallback_action = '<C-x><C-n>',
