@@ -271,6 +271,8 @@ do
   -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
   -- or just use <C-\><C-n> to exit terminal mode
   vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+  vim.keymap.set('t', '<C-w>w', '<C-\\><C-o><C-w>w<Esc>', { desc = 'Next window in terminal mode' })
+  vim.keymap.set('t', '<C-w><C-w>', '<C-\\><C-o><C-w>w<Esc>', { desc = 'Next window in terminal mode' })
 
   -- Remove some default lsp keymaps
   vim.keymap.del('n', 'gra')
@@ -990,6 +992,7 @@ do
   -- NOTE: You can add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
+  require('custom.modules.jj').setup()
   require 'custom.plugins'
 end
 
