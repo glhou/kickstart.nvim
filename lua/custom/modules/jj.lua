@@ -54,8 +54,19 @@ function M.setup()
   end, {
     desc = 'Jj new dev',
   })
-  vim.api.nvim_create_user_command('JjBookAdv', function() cmd 'terminal jj bookmark advance' end, {
+  vim.api.nvim_create_user_command('JjBookAdv', function(opts) cmd('terminal jj bookmark advance "' .. opts.args .. '"') end, {
+    nargs = '?',
     desc = 'Jj bookmark advance',
+  })
+  vim.api.nvim_create_user_command('JjPushPrev', function() cmd 'terminal jj git push --revision @-' end, {
+    desc = 'Jj push previous revision',
+  })
+  vim.api.nvim_create_user_command('JjBookRemote', function() cmd 'terminal jj bookmark list --remote origin --sort author-date- --no-pager' end, {
+    desc = 'Jj remote bookmarks',
+  })
+  vim.api.nvim_create_user_command('JjBookTrack', function(opts) cmd('terminal jj bookmark track "' .. opts.args .. '"') end, {
+    nargs = 1,
+    desc = 'Jj remote bookmarks',
   })
 end
 
