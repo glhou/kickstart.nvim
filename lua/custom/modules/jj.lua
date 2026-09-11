@@ -1,9 +1,16 @@
 -- lua/custom/modules/jj.lua
 local M = {}
 
+local cmd_win
+
 --- @param cmd string
 function cmd(cmd)
-  vim.cmd 'botright new'
+  if cmd_win and vim.api.nvim_win_is_valid(cmd_win) then
+    vim.api.nvim_set_current_win(cmd_win)
+  else
+    vim.cmd 'botright new'
+    cmd_win = vim.api.nvim_get_current_win()
+  end
   vim.cmd(cmd)
   vim.keymap.set('t', 'q', '<C-\\><C-n><cmd>close<CR>', {
     buffer = 0,
@@ -37,6 +44,15 @@ function M.setup()
   })
   vim.api.nvim_create_user_command('JjNew', function(opts) cmd 'terminal jj new' end, {
     desc = 'Jj new',
+  })
+  vim.api.nvim_create_user_command('JjFetch', function(opts) cmd 'terminal jj git fetch' end, {
+    desc = 'Jj git fetch',
+  })
+  vim.api.nvim_create_user_command('JjNewDev', function(opts)
+    vim.cmd '!jj git fetch'
+    cmd 'terminal jj new dev@origin'
+  end, {
+    desc = 'Jj new dev',
   })
   vim.api.nvim_create_user_command('JjBookAdv', function() cmd 'terminal jj bookmark advance' end, {
     desc = 'Jj bookmark advance',
