@@ -106,14 +106,6 @@ do
   -- NOTE: You can change these options as you wish!
   --  For more options, you can see `:help option-list`
 
-  -- Make line numbers default
-  -- vim.o.number = true
-  -- You can also add relative line numbers, to help with jumping.
-  -- Experiment for yourself to see if you like it!
-  vim.o.number = true
-  vim.o.relativenumber = true
-  vim.o.numberwidth = 5
-
   -- Enable mouse mode, can be useful for resizing splits for example!
   vim.o.mouse = 'a'
 
@@ -126,28 +118,32 @@ do
   --  See `:help 'clipboard'`
   vim.schedule(function() vim.o.clipboard = 'unnamedplus' end)
 
-  -- Enable break indent
-  vim.o.breakindent = true
-
   -- Enable undo/redo changes even after closing and reopening a file
   vim.o.undofile = true
 
-  -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
-  vim.o.ignorecase = true
-  vim.o.smartcase = true
+  -- Don't store backup while overwriting the file
+  vim.o.backup = false
+  vim.o.writebackup = false
 
-  -- Keep signcolumn on by default
-  vim.o.signcolumn = 'yes'
+  -- Enable all filetype plugins
+  vim.cmd 'filetype plugin indent on'
 
-  -- Decrease update time
-  vim.o.updatetime = 250
+  -- # Appearance
+  vim.o.breakindent = true -- Enable break indent
+  vim.o.cursorline = true -- Show which line your cursor is on
+  vim.o.linebreak = true
+  vim.o.number = true
+  vim.o.relativenumber = true
+  vim.o.numberwidth = 5
+  vim.o.splitbelow = true -- Horizontal splits will be below
+  vim.o.splitright = true -- Vertical splits will be to the right
 
-  -- Decrease mapped sequence wait time
-  vim.o.timeoutlen = 300
+  vim.o.ruler = false -- Don't show cursor position in command line
+  vim.o.showmode = false -- Don't show mode in command line
+  vim.o.wrap = true -- Display long lines as multiple lines
 
-  -- Configure how new splits should be opened
-  vim.o.splitright = true
-  vim.o.splitbelow = true
+  vim.o.signcolumn = 'yes' -- Keep signcolumn on by default
+  vim.o.fillchars = 'eob: ' -- Don't show `~` outside of buffer
 
   vim.opt.colorcolumn = '88'
 
@@ -155,30 +151,47 @@ do
   vim.opt.shiftwidth = 2
   vim.opt.expandtab = true
 
-  -- Folding
-  vim.o.foldmethod = 'indent'
-  vim.o.foldenable = false
-  vim.o.foldlevelstart = 99
+  vim.o.scrolloff = 8 -- Minimal number of screen lines to keep above and below the cursor.
 
-  -- Sets how neovim will display certain whitespace characters in the editor.
-  --  See `:help 'list'`
-  --  and `:help 'listchars'`
-  --
-  --  Notice listchars is set using `vim.opt` instead of `vim.o`.
-  --  It is very similar to `vim.o` but offers an interface for conveniently interacting with tables.
-  --   See `:help lua-options`
-  --   and `:help lua-guide-options`
+  vim.o.inccommand = 'split' -- Preview substitutions live, as you type!
+
+  vim.o.foldmethod = 'indent' -- folding
+  vim.o.foldenable = false -- folding
+  vim.o.foldlevelstart = 99 -- folding
+
+  -- # Editing
+  vim.o.ignorecase = true -- Ingore case when searching (use `\C` to force not doing that)
+  vim.o.incsearch = true -- Show search results while typing
+  vim.o.infercase = true -- Infer letter cases for a richer built-in keyword completion
+  vim.o.smartcase = true -- Don't ignore case when search if pattern has upper case
+  vim.o.smartindent = true -- Make indenting smart
+
+  vim.o.completeopt = 'menuone,noselect' -- Customize completions
+  vim.o.virtualedit = 'block' -- Allow going past the end of line in visual block mode
+  vim.o.formatoptions = 'qjl1' -- Don't autoformat comments
+
+  vim.o.splitkeep = 'screen'
+
+  -- # Opinioneted
+  vim.o.pumblend = 0 -- Make builtin completion menus slightly transparent
+  vim.o.pumheight = 10 -- Make popup menu smaller
+  vim.o.winblend = 0 -- Make floating windows slightly transparents
+
+  -- NOTE: Having `tab` present is needed because `^I` will be shown if
+  -- omitted (documented in `:h listchars`).
+  -- Having it equal to a default value should be less intrusive.
   vim.o.list = true
   vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
-  -- Preview substitutions live, as you type!
-  vim.o.inccommand = 'split'
+  if vim.fn.exists 'syntax_on' ~= 1 then vim.cmd [[syntax enable]] end
 
-  -- Show which line your cursor is on
-  vim.o.cursorline = true
+  ----
 
-  -- Minimal number of screen lines to keep above and below the cursor.
-  vim.o.scrolloff = 8
+  -- Decrease update time
+  vim.o.updatetime = 250
+
+  -- Decrease mapped sequence wait time
+  vim.o.timeoutlen = 300
 
   -- if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
   -- instead raise a dialog asking if you wish to save the current file(s)
