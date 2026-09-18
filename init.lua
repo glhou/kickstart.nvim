@@ -503,17 +503,6 @@ do
     },
   }
 
-  -- Highlight todo, notes, etc in comments
-  vim.pack.add { gh 'folke/todo-comments.nvim' }
-  require('todo-comments').setup {
-    signs = false,
-    keywords = {
-      WIP = { icon = '⏰', color = 'info' },
-    },
-    search = { pattern = [[\b(KEYWORDS)(\([^\)]*\))?:]] },
-    highlight = { pattern = [[.*<((KEYWORDS)%(\(.{-1,}\))?):]] },
-  }
-
   -- [[ mini.nvim ]]
   -- A collection of various small independent plugins/modules
   vim.pack.add { gh 'nvim-mini/mini.nvim' }
@@ -539,6 +528,19 @@ do
   -- - sd'   - [S]urround [D]elete [']quotes
   -- - sr)'  - [S]urround [R]eplace [)] [']
   require('mini.surround').setup()
+
+  local hipatterns = require 'mini.hipatterns'
+  hipatterns.setup {
+    highlighters = {
+      todo = { pattern = '%f[%w]()TODO()%f[%W]', group = 'MiniHipatternsTodo' },
+      note = { pattern = '%f[%w]()NOTE()%f[%W]', group = 'MiniHipatternsNote' },
+      wip = { pattern = '%f[%w]()WIP()%f[%W]', group = 'MiniHipatternsWip' },
+      fix = { pattern = '%f[%w]()FIX()%f[%W]', group = 'MiniHipatternsFix' },
+      warn = { pattern = '%f[%w]()WARN()%f[%W]', group = 'MiniHipatternsWarn' },
+
+      hex_color = hipatterns.gen_highlighter.hex_color(),
+    },
+  }
 
   local statusline = require 'mini.statusline'
   statusline.setup { use_icons = vim.g.have_nerd_font }
