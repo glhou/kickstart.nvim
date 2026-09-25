@@ -391,7 +391,7 @@ do
   local function save_buf(buf)
     if not vim.api.nvim_buf_is_valid(buf) then return end
     if vim.bo[buf].buftype == '' and vim.bo[buf].modified and vim.fn.filereadable(vim.fn.bufname(buf)) == 1 then
-      vim.api.nvim_buf_call(buf, function() vim.cmd 'noautocmd silent! update' end)
+      vim.api.nvim_buf_call(buf, function() vim.cmd 'silent! update' end)
     end
   end
   -- save on hide/focus lost
@@ -405,9 +405,11 @@ do
   vim.api.nvim_create_autocmd('User', {
     pattern = 'LspRenameDone',
     callback = function()
-      for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-        save_buf(buf)
-      end
+      vim.schedule(function()
+        for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+          save_buf(buf)
+        end
+      end)
     end,
     desc = 'Auto-save all bufs after LSP rename',
   })
@@ -742,7 +744,7 @@ do
       end
 
       -- inlay hints
-      if client and client:supports_method('textDocuemnt/inlayHint', event.buf) then
+      if client and client:supports_method('textDocument/inlayHint', event.buf) then
         vim.lsp.inlay_hint.enable(true)
         map('<leader>uh', function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf }) end, '[U]i Toggle Inlay [H]ints')
       end
@@ -828,7 +830,7 @@ do
 
   require('mason').setup {}
 
-  local ensure_installed = vim.tbl_keys(server or {})
+  local ensure_installed = vim.tbl_keys(servers or {})
   vim.list_extend(ensure_installed, {
     -- Add tools that Mason should install
     -- NOTE: not sure if this is useful as I can just put them in the server
@@ -907,26 +909,7 @@ do
   -- vim.pack.add { gh 'rafamadriz/friendly-snippets' }
   -- require('luasnip.loaders.from_vscode').lazy_load()
   require('mini.fuzzy').setup {} -- required in fuzzy_filter
-  require('mini.completion').setup {
-    delay = { completion = 100, info = 100, singature = 50 },
-    window = {
-      info = { height = 25, width = 80, border = nil },
-      signature = { height = 25, width = 80, border = nil },
-    },
-    lsp_completion = {
-      source_func = 'omnifunc',
-      auto_setup = true,
-      --   process_items = function(items, base)
-      --     local augmented = require('custom.functions.uv_import').augment(items)
-      --     local filtered = require('custom.functions.fuzzy_filter').filter(augmented, base)
-      --     return MiniCompletion.default_process_items(filtered, '')
-      --   end,
-    },
-
-    fallback_action = '<C-x><C-n>',
-
-    set_vim_settings = true,
-  }
+  require('mini.completion').setup {}
 end
 
 -- ============================================================
