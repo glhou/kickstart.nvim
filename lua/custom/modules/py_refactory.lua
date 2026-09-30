@@ -90,6 +90,24 @@ function create_normal_test(context) create_test(context) end
 ---@param context Context
 function transform_args_to_kwargs(context) end
 
+---@param context Context
+function split_string(context)
+  local parent = context.node:parent()
+
+  local start_row, start_col, end_row, end_col = context.node:range()
+
+  if parent and parent:type() ~= 'concatenated_string' then
+    -- add some parenthesis before and after
+    vim.api.nvim_buf_set_text(context.bufnr, end_row, end_col, end_row, end_col, { ')' })
+    vim.api.nvim_buf_set_text(context.bufnr, start_row, start_col, start_row, start_col, { '(' })
+  end
+  vim.api.nvim_win_set_cursor(0, { start_row + 1, 0 })
+
+  vim.cmd.normal '088lF '
+  vim.cmd.normal 'i"\n'
+  vim.cmd.normal 'f"f,x'
+end
+
 ---@type table<string, RefactorAction[]>
 local actions = {
   function_definition = {
@@ -110,6 +128,12 @@ local actions = {
     {
       name = 'Transform args into kwargs',
       execute = transform_args_to_kwargs,
+    },
+  },
+  string = {
+    {
+      name = 'Split string',
+      execute = split_string,
     },
   },
 }
