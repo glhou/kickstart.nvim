@@ -20,6 +20,7 @@ end
 local function find_test_files(project_root, filename)
   local matches = {}
   local target = 'test_' .. filename
+  local other_target = 'test' .. filename
 
   local function scan(dir)
     for name, type in vim.fs.dir(dir) do
@@ -28,6 +29,8 @@ local function find_test_files(project_root, filename)
       if type == 'directory' then
         scan(path)
       elseif type == 'file' and name == target then
+        table.insert(matches, path)
+      elseif type == 'file' and name == other_target then
         table.insert(matches, path)
       end
     end
@@ -51,8 +54,8 @@ function create_test(context, type)
   if type then test_root = vim.fs.joinpath(project_root, 'tests', type) end
   local test_files = find_test_files(test_root, filename)
 
-  if not test_files then
-    vim.notify("Couldn't find a test file named " .. filename)
+  if #test_files == 0 then
+    vim.notify("Couldn't find a test file named test_" .. filename .. ' or named test' .. filename)
     return
   end
 
@@ -92,6 +95,10 @@ function transform_args_to_kwargs(context) end
 
 ---@param context Context
 function split_string(context)
+  -- How to upgrade:
+  -- 1. add the comma at the end if necessary
+  -- 2. add the f-string back on new line
+  -- 3. do multi split
   local parent = context.node:parent()
 
   local start_row, start_col, end_row, end_col = context.node:range()
