@@ -13,6 +13,10 @@ require('org').setup {
   org_directory = '~/org',
   agenda_files = { '~/org/**/*.org' },
   default_notes_file = '~/org/inbox.org',
+  agenda = {
+    window = 'current',
+    save_after_edit = true,
+  },
   mappings = {
     agenda = {
       set_tags = false,
