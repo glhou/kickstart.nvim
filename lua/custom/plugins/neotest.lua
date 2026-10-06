@@ -25,17 +25,11 @@ neotest.setup {
 
 vim.keymap.set('n', '<leader>ta', function() neotest.run.attach() end, { desc = 'Attach to Test (Neotest)' })
 
-vim.keymap.set('n', '<leader>tt', function()
-  neotest.run.run(vim.fn.expand '%')
-  neotest.output_panel.open()
-end, { desc = 'Run File (Neotest)' })
+vim.keymap.set('n', '<leader>tt', function() neotest.run.run(vim.fn.expand '%') end, { desc = 'Run File (Neotest)' })
 
 vim.keymap.set('n', '<leader>tT', function() neotest.run.run(vim.uv.cwd()) end, { desc = 'Run All Test Files (Neotest)' })
 
-vim.keymap.set('n', '<leader>tr', function()
-  neotest.run.run()
-  neotest.output_panel.open()
-end, { desc = 'Run Nearest (Neotest)' })
+vim.keymap.set('n', '<leader>tr', function() neotest.run.run() end, { desc = 'Run Nearest (Neotest)' })
 
 vim.keymap.set('n', '<leader>tl', function() neotest.run.run_last() end, { desc = 'Run Last (Neotest)' })
 
