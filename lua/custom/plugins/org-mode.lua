@@ -17,6 +17,9 @@ require('org').setup {
     window = 'current',
     save_after_edit = true,
   },
+  notifications = {
+    enabled = true,
+  },
   mappings = {
     agenda = {
       set_tags = false,

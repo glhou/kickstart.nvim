@@ -514,6 +514,12 @@ do
     MiniIcons.mock_nvim_web_devicons()
   end
 
+  require('mini.notify').setup {
+    lsp_progress = {
+      enable = false,
+    },
+  }
+
   -- Better Around/Inside textobjects
   --
   -- Examples:
