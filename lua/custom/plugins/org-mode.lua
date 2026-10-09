@@ -19,6 +19,8 @@ require('org').setup {
   },
   notifications = {
     enabled = true,
+    reminder_time = { 30, 15, 5 },
+    single_instance = true,
   },
   mappings = {
     agenda = {
