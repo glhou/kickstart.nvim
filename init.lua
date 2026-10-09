@@ -514,9 +514,18 @@ do
     MiniIcons.mock_nvim_web_devicons()
   end
 
-  require('mini.notify').setup {
-    lsp_progress = {
-      enable = false,
+  -- require('mini.notify').setup {
+  --   lsp_progress = {
+  --     enable = false,
+  --   },
+  -- }
+  require('vim._core.ui2').enable {
+    enable = true,
+    msg = {
+      targets = {
+        default = 'cmd',
+        progress = 'msg',
+      },
     },
   }
 
