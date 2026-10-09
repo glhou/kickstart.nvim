@@ -669,6 +669,18 @@ do
       -- Useful when you're not sure what type a variable is and you want to see
       -- the definition of its *type*, not where it was *defined*.
       vim.keymap.set('n', 'gy', builtin.lsp_type_definitions, { buffer = buf, desc = '[G]oto t[Y]pe Definition' })
+
+      -- Rename var under cursor.
+      vim.keymap.set('n', '<leader>cr', vim.lsp.buf.rename, {
+        buffer = buf,
+        desc = '[C]ode [R]ename',
+      })
+
+      -- Execute code action
+      vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, {
+        buffer = buf,
+        desc = '[C]ode [A]ction',
+      })
     end,
   })
 
@@ -724,16 +736,6 @@ do
         vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
       end
 
-      -- Rename var under cursor.
-      map('<leader>cr', vim.lsp.buf.rename, '[C]ode [R]ename')
-
-      -- Execute code action
-      map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
-
-      -- WARN: This is not Goto Definition, this is Goto Declaration.
-      --  For example, in C this would take you to the header.
-      -- map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-
       local client = vim.lsp.get_client_by_id(event.data.client_id)
       if client and client:supports_method('textDocument/documentHighlight', event.buf) then
         local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
@@ -766,97 +768,112 @@ do
     end,
   })
 
+  vim.pack.add { gh 'neovim/nvim-lspconfig' }
   -- Enable language servers
-  ---@type table<string, vim.lsp.Config>
-  local servers = {
-    --ty = {},
-    pyrefly = {},
-    ruff = {},
-    djlint = {},
-    vtsls = {},
-    eslint = {},
-    jinja_lsp = {
-      filetypes = { 'html', 'jinja' },
-    },
-    gopls = {
-      settings = {
-        gopls = {
-          gofumpt = true,
-          staticcheck = true,
-          analyses = {
-            unusedparams = true,
-            shadow = true,
-          },
+  vim.lsp.config('jinja_lsp', {
+    filetypes = { 'html', 'jinja' },
+  })
+  vim.lsp.config('gopls', {
+    settings = {
+      gopls = {
+        gofumpt = true,
+        staticcheck = true,
+        analyses = {
+          unusedparams = true,
+          shadow = true,
         },
+        codeActionImports = true,
       },
     },
-    goimports = {},
-    rust_analyzer = {
-      settings = {
-        rust_analyzer = {
-          cargo = { allFeatures = true },
-          checkOnSave = { command = 'clippy' },
-        },
+  })
+  vim.lsp.config('rust_analyzer', {
+    settings = {
+      ['rust-analyzer'] = {
+        cargo = { allFeatures = true },
+        checkOnSave = { command = 'clippy' },
       },
     },
-    pgformatter = {},
-
-    stylua = {}, -- Used to format Lua code
-
-    -- Special Lua Config, as recommended by neovim help docs
-    lua_ls = {
-      on_init = function(client)
-        client.server_capabilities.documentFormattingProvider = false -- Disable formatting (formatting is done by stylua)
-        if client.workspace_folders then
-          local path = client.workspace_folders[1].name
-          if path ~= vim.fn.stdpath 'config' and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc')) then return end
-        end
-
-        client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
-          runtime = {
-            version = 'LuaJIT',
-            path = { 'lua/?.lua', 'lua/?/init.lua' },
-          },
-          workspace = {
-            checkThirdParty = false,
-            -- NOTE: this is a lot slower and will cause issues when working on your own configuration.
-            --  See https://github.com/neovim/nvim-lspconfig/issues/3189
-            library = vim.tbl_extend('force', vim.api.nvim_get_runtime_file('', true), {
-              '${3rd}/luv/library',
-              '${3rd}/busted/library',
-            }),
-          },
-        })
-      end,
-      settings = {
-        Lua = {
-          format = { enable = false },
-        },
-      },
-    },
-  }
-
-  vim.pack.add {
-    gh 'neovim/nvim-lspconfig',
-    gh 'mason-org/mason.nvim',
-    gh 'mason-org/mason-lspconfig.nvim',
-    gh 'WhoIsSethDaniel/mason-tool-installer.nvim',
-  }
-
-  require('mason').setup {}
-
-  local ensure_installed = vim.tbl_keys(servers or {})
-  vim.list_extend(ensure_installed, {
-    -- Add tools that Mason should install
-    -- NOTE: not sure if this is useful as I can just put them in the server
   })
 
-  require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+  vim.lsp.config('lua_ls', {
+    on_init = function(client)
+      client.server_capabilities.documentFormattingProvider = false -- Disable formatting (formatting is done by stylua)
+      if client.workspace_folders then
+        local path = client.workspace_folders[1].name
+        if path ~= vim.fn.stdpath 'config' and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc')) then return end
+      end
 
-  for name, server in pairs(servers) do
-    vim.lsp.config(name, server)
-    vim.lsp.enable(name)
+      client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+        runtime = {
+          version = 'LuaJIT',
+          path = { 'lua/?.lua', 'lua/?/init.lua' },
+        },
+        workspace = {
+          checkThirdParty = false,
+          -- NOTE: this is a lot slower and will cause issues when working on your own configuration.
+          --  See https://github.com/neovim/nvim-lspconfig/issues/3189
+          library = vim.tbl_extend('force', vim.api.nvim_get_runtime_file('', true), {
+            '${3rd}/luv/library',
+            '${3rd}/busted/library',
+          }),
+        },
+      })
+    end,
+    filetype = { 'lua' },
+    settings = {
+      Lua = {
+        format = { enable = false },
+      },
+    },
+  })
+
+  vim.lsp.enable { 'ruff', 'pyrefly', 'vtsls', 'eslint', 'jinja_lsp', 'gopls', 'rust_analyzer', 'lua_ls' }
+
+  local function lsp_check()
+    if vim.fn.executable 'uv' ~= 1 then
+      vim.notify "uv isn't installed"
+    else
+      vim.notify 'uv is installed'
+      vim.cmd '!uv tool install ruff'
+      vim.cmd '!uv tool install pyrefly'
+      vim.cmd '!uv tool install djlint'
+      vim.cmd '!uv tool install jinja-lsp'
+    end
+    if vim.fn.executable 'go' == 1 then
+      vim.notify 'go is installed'
+    else
+      vim.notify "go isn't installed"
+    end
+    if vim.fn.executable 'rust-analyzer' == 1 then
+      vim.notify 'rust-analyzer is installed'
+    else
+      vim.notify "rust-analyzer isn't installed"
+    end
+    if vim.fn.executable 'npm' == 1 then
+      vim.notify 'npm is installed'
+      vim.cmd '!npm install -g @vtsls/language-server typescript'
+      vim.cmd '!npm -g eslint vscode-langservers-extracted'
+    else
+      vim.notify "npm isn't installed"
+    end
+    if vim.fn.executable 'pgformatter' == 1 then
+      vim.notify 'pgformatter is installed'
+    else
+      vim.notify "pgformatter isn't installed"
+    end
+    if vim.fn.executable 'stylua' == 1 then
+      vim.notify 'stylua is installed'
+    else
+      vim.notify "stylua isn't installed"
+    end
+    if vim.fn.executable 'lua-language-server' == 1 then
+      vim.notify 'lua_ls is installed'
+    else
+      vim.notify "lua_ls isn't installed"
+    end
   end
+
+  vim.api.nvim_create_user_command('LspCheck', lsp_check, { desc = 'Check that LSP server and tools are installed' })
 end
 
 -- ============================================================
